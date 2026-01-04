@@ -53,6 +53,74 @@
                             </div>
                             <input type="text" class="w-100 h-15 bg-gray-500 rounded-2xl" placeholder="Search in Here">
                         </div>
+                        <div class="table-item bg-white mt-5 rounded-2xl">
+                            <table class="w-full text-center">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Medicine Name</th>
+                                        <th>Quantity Sold</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>9 Dec 2025</td>
+                                        <td>Paracetmol</td>
+                                        <td>1</td>
+                                        <td>Rp.50.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>9 Dec 2025</td>
+                                        <td>Amoxilin</td>
+                                        <td>1</td>
+                                        <td>Rp.10.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>9 Dec 2025</td>
+                                        <td>Promag Cair</td>
+                                        <td>2</td>
+                                        <td>Rp.10.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>9 Dec 2025</td>
+                                        <td>Ampicilin</td>
+                                        <td>2</td>
+                                        <td>Rp.20.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>9 Dec 2025</td>
+                                        <td>Ampicilin</td>
+                                        <td>2</td>
+                                        <td>Rp.20.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>9 Dec 2025</td>
+                                        <td>Paramex</td>
+                                        <td>2</td>
+                                        <td>Rp.4.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>9 Dec 2025</td>
+                                        <td>Bodrex</td>
+                                        <td>2</td>
+                                        <td>Rp.4.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>9 Dec 2025</td>
+                                        <td>Bodrex</td>
+                                        <td>2</td>
+                                        <td>Rp.4.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>9 Dec 2025</td>
+                                        <td>Antasida</td>
+                                        <td>1</td>
+                                        <td>Rp.10.000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
