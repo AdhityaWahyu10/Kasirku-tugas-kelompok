@@ -118,6 +118,18 @@
                                         <td>1</td>
                                         <td>Rp.10.000</td>
                                     </tr>
+                                    <tr>
+                                        <td>9 Dec 2025</td>
+                                        <td>Ranitidine</td>
+                                        <td>1</td>
+                                        <td>Rp.4.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>9 Dec 2025</td>
+                                        <td>Become Z</td>
+                                        <td>1</td>
+                                        <td>Rp.20.000</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
