@@ -3,65 +3,58 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Kategori;
 use App\Models\Obat;
-use App\Models\Pelanggan;
 use App\Models\Transaksi;
 use App\Models\DetailTransaksi;
 use Illuminate\Support\Facades\DB;
 
 class KasirController extends Controller
-{
-    // 1. Tampilkan semua obat
-    public function index()
-    {
-        $obat = Obat::with('kategori')->get();
-        return view('kasir.index', compact('obat'));
-    }
+{ // <--- KURUNG INI TADI HILANG, JADI ERROR
 
-    // 2. Tampilkan form transaksi
-    public function create()
-    {
-        $obat = Obat::all();
-        $pelanggan = Pelanggan::all();
-        return view('kasir.create', compact('obat', 'pelanggan'));
-    }
-
-    // 3. Simpan transaksi
     public function store(Request $request)
     {
-        DB::transaction(function() use ($request) {
-            $transaksi = Transaksi::create([
-                'id_pelanggan' => $request->id_pelanggan,
-                'total' => $request->total,
-                'bayar' => $request->bayar,
-                'kembalian' => $request->bayar - $request->total,
-            ]);
+        // Validasi input
+        $request->validate([
+            'obat_id' => 'required|array',
+            'jumlah' => 'required|array',
+        ]);
 
-            foreach($request->obat_id as $index => $id_obat){
-                $obat = Obat::find($id_obat);
-                $jumlah = $request->jumlah[$index];
-                $subtotal = $obat->harga * $jumlah;
-
-                DetailTransaksi::create([
-                    'id_transaksi' => $transaksi->id,
-                    'id_obat' => $id_obat,
-                    'jumlah' => $jumlah,
-                    'subtotal' => $subtotal
+        try {
+            DB::transaction(function () use ($request) {
+                // 1. Simpan Transaksi Induk
+                $transaksi = Transaksi::create([
+                    'id_pelanggan' => $request->id_pelanggan,
+                    'total' => $request->total,
+                    'bayar' => $request->bayar,
+                    'kembalian' => $request->bayar - $request->total,
                 ]);
 
-                // Kurangi stok obat
-                $obat->decrement('stok', $jumlah);
-            }
-        });
+                // 2. Loop Item Obat
+                foreach ($request->obat_id as $index => $id_obat) {
+                    $qtyBeli = $request->jumlah[$index];
+                    $obat = Obat::findOrFail($id_obat);
 
-        return redirect()->route('kasir.index')->with('success', 'Transaksi berhasil disimpan!');
-    }
+                    // SISTEM STOK: Cek Kecukupan
+                    if ($obat->stok < $qtyBeli) {
+                        throw new \Exception("Stok {$obat->nama} tidak cukup! Sisa: {$obat->stok}");
+                    }
 
-    // 4. Tampilkan semua transaksi
-    public function transaksi()
-    {
-        $transaksi = Transaksi::with('pelanggan', 'detail.obat')->get();
-        return view('kasir.transaksi', compact('transaksi'));
+                    // SISTEM STOK: Potong Stok
+                    $obat->decrement('stok', $qtyBeli);
+
+                    // 3. Simpan Detail untuk Dashboard
+                    DetailTransaksi::create([
+                        'id_transaksi' => $transaksi->id,
+                        'id_obat'      => $id_obat,
+                        'jumlah'       => $qtyBeli,
+                        'subtotal'     => $obat->harga * $qtyBeli
+                    ]);
+                }
+            });
+
+            return redirect()->route('dashboard')->with('success', 'Transaksi Berhasil!');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
     }
 }

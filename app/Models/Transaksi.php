@@ -10,8 +10,6 @@ class Transaksi extends Model
     use HasFactory;
 
     protected $table = 'transaksi';
-    protected $fillable = ['id_pelanggan', 'total', 'bayar', 'kembalian'];
-
     // Relasi: Transaksi milik Pelanggan
     public function pelanggan()
     {

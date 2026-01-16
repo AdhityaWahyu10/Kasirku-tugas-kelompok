@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KasirController;
-
+use App\Http\Controllers\ObatController;
+use App\Http\Controllers\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,17 +20,15 @@ Route::get('/', function () {
 // =======================
 // DASHBOARD
 // =======================
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
-
+Route::get('/dashboard', [DashboardController::class, 'index'])
+->name('dashboard');
 // =======================
 // KASIR (UI LAMA & BARU)
 // =======================
 
 // UI kasir lama (jika masih dipakai)
 Route::get('/cashier', function () {
-    return view('cashier');
+    return view('cashier'); 
 })->name('cashier');
 
 // CRUD Kasir Apotek Baru (Controller)
@@ -58,9 +57,8 @@ Route::prefix('kasir')->group(function () {
 
 // Log transaksi (view statis)
 Route::get('/log-transaksi', function () {
-    return view('log');
+    return view('log'); 
 })->name('log-transaksi');
-
 // Checkout
 Route::get('/checkout', function () {
     return view('checkout');
